@@ -7,6 +7,9 @@ pygame.init()
 
 # create the screen
 WIDTH = 550
+Background_color = (222, 196, 124)
+Fixed_color = (33, 25, 82)
+new_color = (10, 69, 23)
 screen = pygame.display.set_mode((600, 600))
 
 
@@ -36,18 +39,19 @@ def insert(win, position):
                     solver(win)
                 if(event.key == 48): #checking with 0
                     grid[i-1][j-1] = event.key - 48
-                    pygame.draw.rect(screen, (240, 230, 220), (position[0]*50 + 5, position[1]*50+ 5,50 -2*5 , 50 - 2*5))
+                    pygame.draw.rect(screen, Background_color, (position[0]*50 + 5, position[1]*50+ 5,50 -2*5 , 50 - 2*5))
                     pygame.display.update()
                     return
                 if(0 < event.key - 48 <10):  #We are checking for valid input
-                    pygame.draw.rect(screen, (240, 230, 220), (position[0]*50 + 5, position[1]*50+ 5,50 -2*5 , 50 - 2*5))
-                    value = myfont.render(str(event.key-48), True, (0,20,0))
+                    pygame.draw.rect(screen, Background_color, (position[0]*50 + 5, position[1]*50+ 5,50 -2*5 , 50 - 2*5))
+                    value = myfont.render(str(event.key-48), True, new_color)
                     screen.blit(value, (position[0]*50 +15, position[1]*50))
                     grid[i-1][j-1] = event.key - 48
                     pygame.display.update()
                     return
                     
                 return
+
 
 
 def is_empty(num):
@@ -91,17 +95,17 @@ def solver(screen):
                 for k in range(1,10):
                     if(is_valid(k,(i,j))):
                         grid[i][j] = k
-                        value = myfont.render(str(k),True,(0,0,0))
+                        value = myfont.render(str(k),True,new_color)
                         screen.blit(value,((j+1)*50+15,(i+1)*50))
                         pygame.display.update()
-                        pygame.time.delay(5)
+                        # pygame.time.delay(5)
                         solver(screen)
                         global solved
                         if solved == 1:
                             return
 
                         grid[i][j] = 0
-                        pygame.draw.rect(screen, (255, 255, 255), ((j+1)*50 + 5, (i+1)*50+ 5,50 -2*5 , 50 - 2*5))
+                        pygame.draw.rect(screen, Background_color, ((j+1)*50 + 5, (i+1)*50+ 5,50 -2*5 , 50 - 2*5))
                         pygame.display.update()
 
                 return
@@ -138,13 +142,13 @@ def draw(screen):
     for i in range(len(grid[0])):
         for j in range(len(grid[0])):
             if grid[i][j] > 0 and grid[i][j] < 10:
-                value = myfont.render(str(grid[i][j]), True, (0, 0, 75))
+                value = myfont.render(str(grid[i][j]), True, Fixed_color)
                 screen.blit(value, ((j+1) * gap + 15, (i+1) * gap ))
 
 
 
 def redraw_window(win, board, time):
-    win.fill((255,255,255))
+    win.fill(Background_color)
     # Draw time
     fnt = pygame.font.SysFont("arialblack", 30)
     text = fnt.render("Time: " + format_time(time), 1, (0,0,0))
